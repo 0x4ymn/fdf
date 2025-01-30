@@ -14,7 +14,9 @@
 
 static int	count_width(char **split)
 {
-    int width = 0;
+    int width;
+
+    width = 0;
     while (split[width])
         width++;
     return (width);
@@ -46,6 +48,7 @@ static int	parse_line(t_fdf *fdf, char *line, int i)
 static int	count_lines(t_fdf *fdf, char *filename)
 {
     char	*line;
+
     fdf->fd = open(filename, O_RDONLY);
     if (fdf->fd < 0)
         return (1);
@@ -70,7 +73,6 @@ int	read_file(t_fdf *fdf, char *filename)
     fdf->map = (t_map **)malloc(sizeof(t_map *) * fdf->height);
     if (!fdf->map)
         return (1);
-
     fdf->fd = open(filename, O_RDONLY);
     if (fdf->fd < 0)
         return (1);
@@ -87,9 +89,10 @@ int	read_file(t_fdf *fdf, char *filename)
 
 int	process_map(t_fdf *fdf)
 {
-    int i = 0;
+    int i;
     int j;
 
+    i = 0;
     while (i < fdf->height)
     {
         j = 0;
@@ -102,4 +105,36 @@ int	process_map(t_fdf *fdf)
         i++;
     }
     return (0);
+}
+
+// Function to parse the map file and populate the fdf structure
+int parse_map(char *filename, t_fdf *fdf)
+{
+    fdf->width = 10;
+    fdf->height = 10;
+    fdf->map = (t_map **)malloc(sizeof(t_map *) * fdf->height);
+    if (!fdf->map)
+        return (0);
+    int i;
+
+    i = 0;
+    while (i < fdf->height)
+    {
+        fdf->map[i] = (t_map *)malloc(sizeof(t_map) * fdf->width);
+        if (!fdf->map[i])
+            return (0);
+        int j;
+
+        j = 0;
+        while (j < fdf-> width)
+        {
+            fdf->map[i][j].x = j;
+            fdf->map[i][j].y = i;
+            fdf->map[i][j].z = 0;
+            fdf->map[i][j].color = 0xFFFFFF;
+            j++;
+        }
+        i++;
+    }
+    return (1);
 }
