@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "fdf.h"
+#include "../inc/fdf.h"
 
 static void	isometric(int *x, int *y, int z, int z_scale, double angle)
 {

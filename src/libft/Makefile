@@ -61,7 +61,12 @@ FTLST_DIR		=	$(SRC_DIR)ft_lst/ft_lstadd_back.c \
 					$(SRC_DIR)ft_lst/ft_lstlast.c \
 					$(SRC_DIR)ft_lst/ft_lstmap.c \
 					$(SRC_DIR)ft_lst/ft_lstnew.c \
-					$(SRC_DIRt_printf and)ft_printf/ft_handle_unsigned.c \
+
+FTPRINTF_DIR	=	$(SRC_DIR)ft_printf/ft_printf.c \
+					$(SRC_DIR)ft_printf/ft_handle_char.c \
+					$(SRC_DIR)ft_printf/ft_handle_string.c \
+					$(SRC_DIR)ft_printf/ft_handle_int.c \
+					$(SRC_DIR)ft_printf/ft_handle_unsigned.c \
 					$(SRC_DIR)ft_printf/ft_handle_pointer.c	\
 					$(SRC_DIR)ft_printf/ft_handle_hex.c \
 					$(SRC_DIR)ft_printf/ft_handle_percent.c \

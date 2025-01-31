@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "fdf.h"
+#include "../inc/fdf.h"
 
 int get_color(int z, int z_min, int z_max)
 {

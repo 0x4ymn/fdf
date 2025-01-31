@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "fdf.h"
+#include "../inc/fdf.h"
 
 static int	count_width(char **split)
 {
@@ -108,7 +108,7 @@ int	process_map(t_fdf *fdf)
 }
 
 // Function to parse the map file and populate the fdf structure
-int parse_map(char *filename, t_fdf *fdf)
+int parse_map(t_fdf *fdf)
 {
     fdf->width = 10;
     fdf->height = 10;

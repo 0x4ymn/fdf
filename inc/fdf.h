@@ -13,10 +13,10 @@
 #ifndef FDF_H
 # define FDF_H
 
-# include "libft/inc/ft_printf.h"
-# include "libft/inc/get_next_line.h"
-# include "libft/inc/libft.h"
-# include "minilibx/mlx.h"
+# include "../src/libft/inc/ft_printf.h"
+# include "../src/libft/inc/get_next_line.h"
+# include "../src/libft/inc/libft.h"
+# include "../minilibx-linux/mlx.h"
 # include <stdlib.h>
 # include <unistd.h>
 # include <math.h>
@@ -68,12 +68,16 @@ typedef struct s_fdf
 
 // Function prototypes
 int		read_file(t_fdf *fdf, char *filename);
+int		parse_map(t_fdf *fdf);
 int		process_map(t_fdf *fdf);
-int		set_mlx_window(t_fdf *fdf);
-int		initialize_fdf(t_fdf *fdf, char *filename);
-int		close_window(void *param);
-void	draw_lines(t_fdf *fdf);
+int		initialize_mlx(t_fdf *fdf);
 int		render_image_to_window(t_fdf *fdf);
+int		set_mlx_window(t_fdf *fdf);
 int		get_color(int z, int z_min, int z_max);
+int		close_window(void *param);
+int		handle_key(int key, t_fdf *fdf);
+int		initialize_fdf(t_fdf *fdf, char *filename);
+
+void	draw_lines(t_fdf *fdf);
 
 #endif

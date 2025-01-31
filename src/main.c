@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "fdf.h"
+#include "../inc/fdf.h"
 
 int close_window(void *param)
 {
@@ -63,8 +63,8 @@ int handle_key(int key, t_fdf *fdf)
 int	initialize_fdf(t_fdf *fdf, char *filename)
 {
     ft_bzero(fdf, sizeof(t_fdf));
-    fdf->z_scale = 6;
-    fdf->isometric_angle = 0.6; // Initialize isometric angle
+    fdf->z_scale = 4;
+    fdf->isometric_angle = 0.8; // Initialize isometric angle
     if (read_file(fdf, filename) != 0)
         return (1);
     if (process_map(fdf) != 0)
