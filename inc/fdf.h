@@ -25,7 +25,31 @@
 # define WIN_WIDTH  800
 # define WIN_HEIGHT 800
 
-// Structure to store map information
+
+typedef struct s_transform
+{
+	int		i;
+	int		j;
+	int		x_offset;
+	int		y_offset;
+	int		x;
+	int		y;
+	int		z_scaled;
+
+	float	scale_x;
+	float	scale_y;
+}			t_transform;
+
+typedef struct s_line
+{
+	int		dx;
+	int		dy;
+	int		sx;
+	int		sy;
+	int		err;
+	int		e2;
+}			t_line;
+
 typedef struct s_map
 {
 	int		x;
@@ -34,7 +58,6 @@ typedef struct s_map
 	int		color;
 }			t_map;
 
-// Main structure to hold program state
 typedef struct s_fdf
 {
 	// File processing

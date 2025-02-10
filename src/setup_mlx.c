@@ -6,26 +6,25 @@
 /*   By: anassih <anassih@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/25 23:34:56 by anassih           #+#    #+#             */
-/*   Updated: 2025/01/25 23:34:56 by anassih          ###   ########.fr       */
+/*   Updated: 2025/01/31 18:20:27 by anassih          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../inc/fdf.h"
 
-static void	isometric(int *x, int *y, int z, int z_scale, double angle)
+static void	isometric(int *x, int *y, int z_scaled, double angle)
 {
-	double cos_angle;
-	double sin_angle;
-	int prev_x;
-	int prev_y;
+	double	cos_angle;
+	double	sin_angle;
+	int		prev_x;
+	int		prev_y;
 
 	cos_angle = cos(angle);
 	sin_angle = sin(angle);
 	prev_x = *x;
 	prev_y = *y;
-	z *= z_scale;
 	*x = (int)((prev_x - prev_y) * cos_angle);
-	*y = (int)((prev_x + prev_y) * sin_angle - z);
+	*y = (int)((prev_x + prev_y) * sin_angle - z_scaled);
 }
 
 static void	adjust_coordinates(t_fdf *fdf, int *x, int *y)
@@ -36,8 +35,8 @@ static void	adjust_coordinates(t_fdf *fdf, int *x, int *y)
 
 static void	find_z_min_max(t_fdf *fdf, int *z_min, int *z_max)
 {
-	int i;
-	int j;
+	int	i;
+	int	j;
 
 	i = 0;
 	*z_min = fdf->map[0][0].z;
@@ -59,38 +58,32 @@ static void	find_z_min_max(t_fdf *fdf, int *z_min, int *z_max)
 
 static void	transform_and_draw(t_fdf *fdf, int z_min, int z_max)
 {
-	int     i;
-	int     j;
-	float   scale_x;
-	float   scale_y;
-	int     x_offset;
-	int     y_offset;
+	t_transform	transform;
 
-	scale_x = (float)fdf->win_width / (fdf->width * 2);
-	scale_y = (float)fdf->win_height / (fdf->height * 2);
-	x_offset = (fdf->width - 1) * scale_x / 2;
-	y_offset = (fdf->height - 1) * scale_y / 2;
-	i = 0;
-	while (i < fdf->height)
+	transform.scale_x = (float)fdf->win_width / (fdf->width * 2);
+	transform.scale_y = (float)fdf->win_height / (fdf->height * 2);
+	transform.x_offset = (fdf->width - 1) * transform.scale_x / 2;
+	transform.y_offset = (fdf->height - 1) * transform.scale_y / 2;
+	transform.i = 0;
+	while (transform.i < fdf->height)
 	{
-		j = 0;
-		while (j < fdf->width)
+		transform.j = 0;
+		while (transform.j < fdf->width)
 		{
-			int x;
-			int y;
-			int z_scaled;
-
-			z_scaled = fdf->map[i][j].z;
-			x = j * scale_x - x_offset;
-			y = i * scale_y - y_offset;
-			isometric(&x, &y, z_scaled, fdf->z_scale, fdf->isometric_angle);
-			adjust_coordinates(fdf, &x, &y);
-			fdf->map[i][j].x = x;
-			fdf->map[i][j].y = y;
-			fdf->map[i][j].color = get_color(fdf->map[i][j].z, z_min, z_max);
-			j++;
+			transform.z_scaled = fdf->map[transform.i][transform.j].z;
+			transform.x = transform.j * transform.scale_x - transform.x_offset;
+			transform.y = transform.i * transform.scale_y - transform.y_offset;
+			transform.z_scaled *= fdf->z_scale;
+			isometric(&transform.x, &transform.y,
+				transform.z_scaled, fdf->isometric_angle);
+			adjust_coordinates(fdf, &transform.x, &transform.y);
+			fdf->map[transform.i][transform.j].x = transform.x;
+			fdf->map[transform.i][transform.j].y = transform.y;
+			fdf->map[transform.i][transform.j].color
+				= get_color(fdf->map[transform.i][transform.j].z, z_min, z_max);
+			transform.j++;
 		}
-		i++;
+		transform.i++;
 	}
 	draw_lines(fdf);
 }
@@ -123,7 +116,8 @@ int	initialize_mlx(t_fdf *fdf)
 		mlx_destroy_window(fdf->mlx, fdf->win);
 		return (1);
 	}
-	fdf->data_addr = mlx_get_data_addr(fdf->img, &fdf->bpp, &fdf->size_line, &fdf->endian);
+	fdf->data_addr = mlx_get_data_addr(fdf->img, &fdf->bpp, &fdf->size_line,
+			&fdf->endian);
 	if (!fdf->data_addr)
 	{
 		mlx_destroy_image(fdf->mlx, fdf->img);

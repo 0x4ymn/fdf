@@ -92,8 +92,8 @@ static char	**result_array(size_t size, char **res_arr, char const *s, char c)
 
 char	**ft_split(char const *s, char c)
 {
-	char		**result;
-	size_t		size;
+	char	**result;
+	size_t	size;
 
 	size = count_words(s, c);
 	if (!s)

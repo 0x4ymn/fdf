@@ -17,12 +17,12 @@
 #  define BUFFER_SIZE 1024
 # endif
 
-#include "libft.h"
-# include <unistd.h>
-# include <stdlib.h>
-# include <string.h>
+# include "libft.h"
 # include <fcntl.h>
 # include <stddef.h>
+# include <stdlib.h>
+# include <string.h>
+# include <unistd.h>
 
 // size_t	ft_strlen(const char *str);
 char	*get_next_line(int fd);
